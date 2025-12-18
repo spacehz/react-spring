@@ -28,6 +28,6 @@ services:
         context: ./frontend
         dockerfile: Dockerfile
       environment:
-        REACT_APP_API_BASE_URL: http://localhost:9090
+        REACT_APP_API_BASE_URL: http://spring-boot-app:9090
       ports:
         - "3000:80"
