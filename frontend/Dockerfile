@@ -1,7 +1,9 @@
 # Build stage
-FROM node:18 AS build
+FROM node:18-alpine AS build
 ARG REACT_APP_API_BASE_URL
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+RUN echo "API URL = $REACT_APP_API_BASE_URL"
+
 
 WORKDIR /app
 
@@ -9,7 +11,9 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+# RUN npm install
+RUN npm ci
+
 
 # Copy the rest of the application code
 COPY . .
@@ -18,7 +22,7 @@ COPY . .
 RUN npm run build
 
 # Serve stage
-FROM nginx:1.25.1
+FROM nginx:1.25.1-alpine
 
 # Copy the custom nginx.conf file to the container
 COPY .docker/nginx.conf /etc/nginx/nginx.conf
